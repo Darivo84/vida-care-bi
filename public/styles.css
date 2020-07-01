@@ -1,0 +1,56 @@
+body {
+  background-color: #f3f3f3 !important;
+  overflow-x: hidden;
+
+}
+
+.formButtonContainer{
+   width: auto;
+   margin-right: 10px;
+   margin-left: 10px;
+}
+
+.textField {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-left: 10px!important;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.resultsCounterContainer {
+    margin: 20px 20px !important;
+  }
+
+.formButtonContainer {
+    height: 100% !important;
+  }
+
+.overviewForm {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .formButton {
+    width: 100%;
+  }
+  .formButtonContainer {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-right: 0;
+  }
+  .textField {
+  margin-bottom: 10px!important;
+  width: 100%;
+  }
+  .resultsCounterContainer {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .overviewForm {
+  flex-direction: column;
+  }
+}
