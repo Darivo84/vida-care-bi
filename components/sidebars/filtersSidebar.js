@@ -17,12 +17,18 @@ import {
   Toolbar,
   CssBaseline,
   IconButton,
+  Menu,
+  MenuItem,
+ 
 } from '@material-ui/core';
+import MoreVertIcon from '@material-ui/icons/MoreVert'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { datediff } from '../overviewComponents/timeframeDisplay';
+import { today, firstDay, twoWeeks, nextweek, previousWeek } from '../../components/data/defaultDates';
 
 const drawerWidth = 240;
 
@@ -103,22 +109,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const options = [
+  'greenwich',
+  'kingston',
+];
+
+const ITEM_HEIGHT = 48;
+
 export default function FiltersSidebar(props) {
-  // default dates
+  
   const { sidebar } = props;
-  const today = new Date().toJSON().slice(0, 10);
-  const firstDay = new Date();
-  const lastDay = new Date(
-    firstDay.getFullYear(),
-    firstDay.getMonth(),
-    firstDay.getDate() + 7
-  );
-  const nextweek = lastDay.toJSON().slice(0, 10);
-  //
 
   const [start, setStart] = useState(today);
   const [end, setEnd] = useState(nextweek);
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openMenu = Boolean(anchorEl);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -126,6 +132,14 @@ export default function FiltersSidebar(props) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const classes = useStyles();
@@ -157,7 +171,6 @@ export default function FiltersSidebar(props) {
   } = state;
 
   const resetFilters = () => {
-    console.log('reset');
     setState({
       liveInCare: true,
       dailyCare: false,
@@ -176,7 +189,6 @@ export default function FiltersSidebar(props) {
     if (dates.start !== start || dates.end !== end) {
       setStart(dates.start);
       setEnd(dates.end);
-      console.log('submitted');
     }
   };
 
@@ -246,7 +258,48 @@ export default function FiltersSidebar(props) {
               size="small"
             />
 
-            <p>Results for {datediff(start, end)}</p>
+            <p style={{ marginLeft: '10px' }}>Results for {datediff(start, end)}</p>
+            <Container style={{ marginTop: '10px', width: '100%'}}>
+              
+                <Button
+                  aria-label="more"
+                  aria-haspopup="true"
+                  aria-controls="customized-menu"
+                  variant="contained"
+                  style={{ fontSize: '12px', margin: '0 5px 0 5px', width: "100%" }}
+                  onClick={handleClick}
+                >
+                  Region <ArrowDropDownIcon />
+                </Button>
+                <Menu
+                  id="long-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={openMenu}
+                  onClose={handleClose}
+                  PaperProps={{
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 4.5,
+                      width: '20ch',
+                    },
+                  }}
+                >
+                  {options.map((option) => (
+                    <MenuItem key={option}  >
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={eval(option)}
+                            onChange={handleChange(option)}
+                            value={option}
+                          />
+                        }
+                        label={option}
+                      />
+                    </MenuItem>
+                  ))}
+                </Menu>
+            </Container>
             <Container style={{ margin: '30px 0 10px 0' }}>
               <FormControl
                 component="fieldset"
@@ -331,37 +384,7 @@ export default function FiltersSidebar(props) {
               </FormControl>
             </Container>
 
-            <Container style={{ marginTop: '30px' }}>
-              <FormControl
-                component="fieldset"
-                className={classes.formControl}
-                style={{ width: '100%' }}
-              >
-                <FormLabel component="legend">Region</FormLabel>
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={greenwich}
-                        onChange={handleChange('greenwich')}
-                        value="greenwich"
-                      />
-                    }
-                    label="Greenwich"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={kingston}
-                        onChange={handleChange('kingston')}
-                        value="kingston"
-                      />
-                    }
-                    label="Kingston"
-                  />
-                </FormGroup>
-              </FormControl>
-            </Container>
+            
 
             <div
               style={{

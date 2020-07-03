@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import { ResponsiveBar } from '@nivo/bar';
 import { Container, Typography, Box } from '@material-ui/core';
 import { useStyles } from '../../components/styles/dashboardStyles';
-import { missedCallsData } from '../../components/data/fakeData';
 import { today, firstDay, lastDay, nextweek } from '../../components/data/defaultDates';
 
 export default function MissedCalls() {
