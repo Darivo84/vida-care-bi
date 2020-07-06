@@ -10,8 +10,18 @@ script:
     - yarn build 
 
 deploy:
-    provider: pages
-    skip-cleanup: true
-    local_dir: build
+    provider: elasticbeakstalk
+    region: eu-west-2
+    app: vida-care-bi
+    env: VidaCareBi-env
+    bucket_name: elasticbeanstalk-eu-west-2-653100821739
+    bucket_path: vida-care-bi
     on: 
         branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+
+after_deploy:
+    - yarn watch
+
+    
