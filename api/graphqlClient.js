@@ -11,7 +11,7 @@ const client = new ApolloClient({
     credentials: 'include',
     // uri: `${process.env.SERVICES_URI}/graphql`,
     // TODO: FIX ENV so that this references the correct url
-    uri: `http://localhost:7000/graphql`,
+    uri: `http://3.8.85.242:7000/graphql`,
     fetch,
   }),
 });
