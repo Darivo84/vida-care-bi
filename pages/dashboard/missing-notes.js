@@ -15,15 +15,15 @@ import {
   TableBody,
 } from '@material-ui/core';
 import { useStyles } from '../../components/styles/dashboardStyles';
-import { today, firstDay, lastDay, nextweek } from '../../components/data/defaultDates';
+import { today, firstDay, previousWeek, lastDay, nextweek } from '../../components/data/defaultDates';
 
 
 
 export default function MissingNotes() {
   const classes = useStyles();
 
-  const [start, setStart] = useState("2020-02-05"); //temporary date
-  const [end, setEnd] = useState("2020-02-20"); //temporary date
+  const [start, setStart] = useState(previousWeek); //temporary date
+  const [end, setEnd] = useState(today); //temporary date
 
   const GET_APPOINTMENTS = gql`
     query($start: String!, $end: String!) {

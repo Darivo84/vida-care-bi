@@ -39,6 +39,7 @@
     "downshift": "^4.0.4",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "forever": "^3.0.0",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "lodash.debounce": "^4.0.8",

@@ -4,13 +4,15 @@ import gql from 'graphql-tag';
 import { ResponsiveBar } from '@nivo/bar';
 import { Container, Typography, Box } from '@material-ui/core';
 import { useStyles } from '../../components/styles/dashboardStyles';
-import { today, firstDay, lastDay, nextweek } from '../../components/data/defaultDates';
+import { today, firstDay, lastDay, previousWeek, nextweek } from '../../components/data/defaultDates';
+
+
 
 export default function MissedCalls() {
   const classes = useStyles();
 
-  const [start, setStart] = useState("2020-02-05"); //temporary date
-  const [end, setEnd] = useState("2020-02-20"); //temporary date
+  const [start, setStart] = useState(previousWeek); //temporary date
+  const [end, setEnd] = useState(today); //temporary date
 
   const GET_APPOINTMENTS = gql`
     query($start: String!, $end: String!) {
@@ -66,6 +68,8 @@ export default function MissedCalls() {
     result.sort((a, b) => a.date.slice(3, 5) - b.date.slice(3, 5))
     return result
   };
+
+  //Incidents and total incidents are hardcoded
 
 
   return (
@@ -154,7 +158,7 @@ export default function MissedCalls() {
             <div className={classes.totalContainer}>
               <Box component="div" display="inline">
                 <Typography className={classes.total}>
-                  TOTAL MISSED CALLS: {missedCallsData.length}
+                  TOTAL MISSED CALLS: {filterCalls().length}
                 </Typography>
               </Box>
               <Box
@@ -163,7 +167,7 @@ export default function MissedCalls() {
                 style={{ width: '200px', marginLeft: '15px' }}
               >
                 <Typography className={classes.total}>
-                  TOTAL INCIDENTS: {missedCallsData.length}
+                  TOTAL INCIDENTS: {filterCalls().length} 
                 </Typography>
               </Box>
             </div>
