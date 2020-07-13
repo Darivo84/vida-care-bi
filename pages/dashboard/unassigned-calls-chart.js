@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Container, Typography, Box } from '@material-ui/core';
 import { ResponsiveLine } from '@nivo/line';
 import { useStyles } from '../../components/styles/dashboardStyles';
-import { today, firstDay, lastDay, previousWeek, nextweek } from '../../components/data/defaultDates';
+import { today, firstDay, lastDay, nextweek } from '../../components/data/defaultDates';
 
 function DashboardIndexPage() {
   
@@ -17,8 +17,8 @@ function DashboardIndexPage() {
     }
   `;
 
-  const [start, setStart] = useState(previousWeek); //temporary date
-  const [end, setEnd] = useState(today); //temporary date
+  const [start, setStart] = useState("2020-02-05"); //temporary date
+  const [end, setEnd] = useState("2020-02-20"); //temporary date
   
 
   const { loading, error, data, refetch } = useQuery(GET_APPOINTMENTS, {
