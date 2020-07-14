@@ -13,7 +13,6 @@ const randomImage = () => {
     'LoginImage4.jpg'
   ]
   const randomNumber = Math.floor(Math.random() * images.length)
-  console.log(randomNumber)
   return images[randomNumber]
 };
 const useStyles = makeStyles(theme => ({

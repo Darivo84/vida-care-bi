@@ -122,12 +122,10 @@ const DashboardLayout = props => {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    console.log('open', open);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
-    console.log('closed', open);
   };
   return (
     <div className={classes.root}>

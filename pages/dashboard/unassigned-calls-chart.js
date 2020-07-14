@@ -34,14 +34,35 @@ function DashboardIndexPage() {
 
   if (loading) return <h1>Loading</h1>
 
+  //getting all dates between start and end
+  const getDates = function(startDate, endDate) {
+    let dates = [],
+        currentDate = startDate,
+        addDays = function(days) {
+          let date = new Date(this.valueOf());
+          date.setDate(date.getDate() + days);
+          return date;
+        };
+    while (currentDate <= endDate) {
+      dates.push(currentDate.toJSON().slice(5, 10).replace('-', '/'));
+      currentDate = addDays.call(currentDate, 1);
+    }
+    return dates;
+  };
+  const datesBetweenStartEnd = getDates(new Date(start), new Date(end))
+
+
 
   const filterCalls = () => {
     const result = []
     const dict = {}
+
+    for(var i = 0; i < datesBetweenStartEnd.length; i++) {
+      dict[datesBetweenStartEnd[i]] = 0;
+    }
+
     data.appointments.map(item => {
-      if (!dict.hasOwnProperty(item.startDate.slice(5, 10).replace('-', '/'))) {
-        dict[item.startDate.slice(5, 10).replace('-', '/')] = 0
-      } 
+      
       if (item.carer === ''){
         dict[item.startDate.slice(5, 10).replace('-', '/')]++
       }

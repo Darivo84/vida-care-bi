@@ -11,6 +11,7 @@ export default function MissedCalls() {
 
   const [start, setStart] = useState(previousWeek); //temporary date
   const [end, setEnd] = useState(today); //temporary date
+  
 
   const GET_APPOINTMENTS = gql`
     query($start: String!, $end: String!) {
@@ -32,13 +33,34 @@ export default function MissedCalls() {
 
   if (loading) return <h1>Loading</h1>
 
+  //getting all dates between start and end
+  const getDates = function(startDate, endDate) {
+    let dates = [],
+        currentDate = startDate,
+        addDays = function(days) {
+          let date = new Date(this.valueOf());
+          date.setDate(date.getDate() + days);
+          return date;
+        };
+    while (currentDate <= endDate) {
+      dates.push(currentDate.toJSON().slice(5, 10).replace('-', '/'));
+      currentDate = addDays.call(currentDate, 1);
+    }
+    return dates;
+  };
+  const datesBetweenStartEnd = getDates(new Date(start), new Date(end))
+
   const filterCalls = () => {
     const result = []
     const dict = {}
+
+    for(var i = 0; i < datesBetweenStartEnd.length; i++) {
+      dict[datesBetweenStartEnd[i]] = 0;
+    }
+    
+
     data.appointments.map(item => {
-      if (!dict.hasOwnProperty(item.startDate.slice(5, 10).replace('-', '/'))) {
-        dict[item.startDate.slice(5, 10).replace('-', '/')] = 0
-      } 
+      
       if (item.checkInDate &&
         item.checkInDate > item.startDate){
         dict[item.startDate.slice(5, 10).replace('-', '/')]++
@@ -71,7 +93,7 @@ export default function MissedCalls() {
               xScale={{ type: 'point' }}
               yScale={{
                 type: 'linear',
-                min: 'auto',
+                min: '0',
                 max: 'auto',
                 stacked: true,
                 reverse: false,
