@@ -51,7 +51,7 @@ function DashboardIndexPage() {
   };
   const datesBetweenStartEnd = getDates(new Date(start), new Date(end))
 
-
+  const allUnassignedCalls = data.appointments.filter(item => item.carer === '')
 
   const filterCalls = () => {
     const result = []
@@ -159,7 +159,7 @@ function DashboardIndexPage() {
             <div className={classes.totalContainer}>
               <Box component="div" display="inline">
                 <Typography className={classes.total}>
-                  TOTAL: {graphData[0].data.length}
+                  TOTAL: {allUnassignedCalls.length}
                 </Typography>
               </Box>
             </div>

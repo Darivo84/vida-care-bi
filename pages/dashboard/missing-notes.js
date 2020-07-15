@@ -67,7 +67,6 @@ export default function MissingNotes() {
   };
   const datesBetweenStartEnd = getDates(new Date(start), new Date(end))
 
-
   const filterCalls = () => {
     const result = []
     const dict = {}
@@ -189,7 +188,7 @@ export default function MissingNotes() {
             <div className={classes.totalContainer}>
               <Box component="div" display="inline">
                 <Typography className={classes.total}>
-                  TOTAL: {graphData[0].data.length}
+                  TOTAL: {allMissingNotes.length}
                 </Typography>
               </Box>
             </div>

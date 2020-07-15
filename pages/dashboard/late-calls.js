@@ -33,6 +33,9 @@ export default function MissedCalls() {
 
   if (loading) return <h1>Loading</h1>
 
+  const allLateCalls = data.appointments.filter(item => item.checkInDate &&
+    item.checkInDate > item.startDate)
+
   //getting all dates between start and end
   const getDates = function(startDate, endDate) {
     let dates = [],
@@ -157,7 +160,7 @@ export default function MissedCalls() {
             <div className={classes.totalContainer}>
               <Box component="div" display="inline">
                 <Typography className={classes.total}>
-                  TOTAL: {graphData[0].data.length}
+                  TOTAL: {allLateCalls.length}
                 </Typography>
               </Box>
             </div>

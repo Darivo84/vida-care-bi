@@ -36,6 +36,22 @@ export default function MissedCalls() {
 
   if (loading) return <h1>Loading</h1>
 
+  const getDates = function(startDate, endDate) {
+    let dates = [],
+        currentDate = startDate,
+        addDays = function(days) {
+          let date = new Date(this.valueOf());
+          date.setDate(date.getDate() + days);
+          return date;
+        };
+    while (currentDate <= endDate) {
+      dates.push(currentDate.toJSON().slice(5, 10).replace('-', '/'));
+      currentDate = addDays.call(currentDate, 1);
+    }
+    return dates;
+  };
+  const datesBetweenStartEnd = getDates(new Date(start), new Date(end))
+
   const graphData = []
 
   const allMissedCalls = data.appointments.filter(item => item.checkInDate === null &&
@@ -45,16 +61,19 @@ export default function MissedCalls() {
   const filterCalls = () => {
     const result = []
     const dict = {}
+
+    for(var i = 0; i < datesBetweenStartEnd.length; i++) {
+      dict[datesBetweenStartEnd[i]] = {
+        date: item.startDate.slice(5, 10).replace('-', '/'),
+        Missed: 0,
+        MissedColor: 'hsl(45, 70%, 50%)',
+        Incidents: 2, //temporary number
+        IncidentsColor: 'hsl(103, 70%, 50%)',
+      };
+    }
+    
     data.appointments.map(item => {
-      if (!dict.hasOwnProperty(item.startDate.slice(5, 10).replace('-', '/'))) {
-        dict[item.startDate.slice(5, 10).replace('-', '/')] = {
-          date: item.startDate.slice(5, 10).replace('-', '/'),
-          Missed: 0,
-          MissedColor: 'hsl(45, 70%, 50%)',
-          Incidents: 10, //temporary number
-          IncidentsColor: 'hsl(103, 70%, 50%)',
-        }
-      } 
+     
       if (item.checkInDate === null &&
         item.endDate.slice(0, 10) <= today &&
         item.cancelled === 'false'){
@@ -158,7 +177,7 @@ export default function MissedCalls() {
             <div className={classes.totalContainer}>
               <Box component="div" display="inline">
                 <Typography className={classes.total}>
-                  TOTAL MISSED CALLS: {filterCalls().length}
+                  TOTAL MISSED CALLS: {allMissedCalls.length}
                 </Typography>
               </Box>
               <Box
